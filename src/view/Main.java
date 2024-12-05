@@ -4,7 +4,9 @@ package view;
 
 import cotroller.AthleteController;
 import cotroller.DisciplineController;
+import cotroller.GameController;
 import cotroller.SportsController;
+import entity.Athlete;
 import service.SportsService;
 
 import java.util.Scanner;
@@ -20,6 +22,8 @@ public class Main {
         System.out.println("1. Atleta");
         System.out.println("2. Disciplina");
         System.out.println("3. sport");
+        System.out.println("4. Gare");
+
 
 
          entityChoice = scanner.nextInt();
@@ -35,6 +39,7 @@ public class Main {
                 System.out.print("Inserisci la tua scelta: ");
                 choice = scanner.nextInt();
                 AthleteController athleteController = new AthleteController();
+                GameController gameController = new GameController();
                 switch(choice){
                     case 1:
                         athleteController.create();
@@ -47,6 +52,11 @@ public class Main {
                         break;
                     case 4:
                         athleteController.delete();
+                        break;
+                    case 5:
+                        athleteController.read();
+                        gameController.printGamesForAthlete();
+                        break;
                     case 9:
                         System.out.println("exiting");
                         break;
@@ -112,7 +122,35 @@ public class Main {
                         System.out.println("Scelta errata. Scegliere un numero da 1 a 4 o 9");
                 }
             }
-
+            else if(entityChoice == 4){
+                System.out.println("***Menu***");
+                System.out.println("1. associa atleta a gara");
+                System.out.println("2. lista delle gare");
+                System.out.println("3. aggiorna partecipazioni gara ");
+                System.out.println("4. elimina gara");
+                System.out.println("9. Exit");
+                System.out.print("Inserisci la tua scelta: ");
+                choice = scanner.nextInt();
+                GameController gameController = new GameController();
+                switch(choice){
+                    case 1:
+                        gameController.create_asscociaGaraAtleta();
+                        break;
+                    case 2:
+                        gameController.readGame();
+                        break;
+                    case 3:
+                        gameController.updateGame();
+                        break;
+                    case 4:
+                        gameController.deleteGame();
+                    case 9:
+                        System.out.println("exiting");
+                        break;
+                    default:
+                        System.out.println("Scelta errata. Scegliere un numero da 1 a 4 o 9");
+                }
+            }
         }while(choice != 9);
 
         scanner.close();

@@ -7,8 +7,10 @@ import java.util.List;
 public class Game {
 
     private int id;
-    private List<Discipline> listaGameIdDiscipline = new ArrayList<>();
-    private List<Athlete> listaGameIdAthlete = new ArrayList<>();
+    private int idAthlete;
+    private int idDisciplina;
+
+
 
     public int getId() {
         return id;
@@ -18,26 +20,20 @@ public class Game {
         this.id = id;
     }
 
-    public List<Athlete> getGameIdAthlete() {
-        return listaGameIdAthlete;
+    public int getIdAthlete(){
+        return  idAthlete;
+    }
+    public void setIdAthlete(int id){
+        this.idAthlete = id;
+    }
+    public int getIdDisciplina(){
+        return  idDisciplina;
+    }
+
+    public void setIdDisciplina(int id) {
+        this.idDisciplina = id;
     }
 
 
-
-    public void addAthlete(Athlete athlete) {
-        if (!listaGameIdAthlete.contains(athlete)) {
-            listaGameIdAthlete.add(athlete);
-        }
-    }
-
-    public List<Discipline> getGameIdDiscipline() {
-        return listaGameIdDiscipline;
-    }
-
-    public void addDoscipline(Discipline discipline) {
-        if (!listaGameIdDiscipline.contains(discipline)) {
-
-            listaGameIdDiscipline.add(discipline);
-        }
-    }
+   @Override public String toString() { return "Game{id=" + id + ", idAtleta=" + idAthlete + ", idDisciplina=" + idDisciplina + '}'; }
 }

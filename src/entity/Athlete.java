@@ -1,6 +1,8 @@
 package entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Athlete {
     private int id;
@@ -9,6 +11,29 @@ public class Athlete {
     private int eta;
     private LocalDate data_nascita;
     private int altezza;
+    private List<Game> listaGame = new ArrayList<>();
+
+    public List<Game> getListaGame(){
+        return listaGame;
+    }
+    public void addListaGame(Game game){
+        if (!listaGame.contains(game)){
+            listaGame.add(game);
+        }
+    }
+    public void printAssignedGames() {
+        if (listaGame.isEmpty()) {
+            System.out.println("Nessuna gara assegnata a questo atleta.");
+        } else {
+            System.out.println("Gare assegnate all'atleta " + nome + " " + cognome + ":");
+            for (Game game : listaGame) {
+                System.out.println(game.toString());
+            }
+        }
+    }
+    public void removeGame(Game game){
+        listaGame.remove(game);
+    }
 
     public int getId() {
         return id;
