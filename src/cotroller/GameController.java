@@ -71,6 +71,13 @@ public class GameController {
         Athlete athlete = gameService.getAthleteWithGames(athleteId);
         athlete.printAssignedGames();
     }
+    public void printGamesForDiscipline() {
+        System.out.println("Inserisci l'ID della disciplina  per visualizzare le gare assegnate:");
+        int discipline_id = scanner.nextInt();
+        scanner.nextLine();
+        Discipline discipline = gameService.getDisciplineWithGames(discipline_id);
+        discipline.printAssignedGames();
+    }
 
     public void deleteGame() {
 

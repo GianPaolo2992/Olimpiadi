@@ -67,7 +67,9 @@ public class DisciplineRepository {
         try {
             Connection c = DbConnection.openConnection();
             System.out.println("Connessione Riuscita");
-            String query = "SELECT * FROM discipline ORDER BY id ASC";
+            String query = "SELECT d.*, s.nome_sport FROM discipline d " +
+                    "JOIN sports s ON s.id = d.id_sport " +
+                    " ORDER BY d.id ASC" ;
             PreparedStatement pstmt = c.prepareStatement(query);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -76,6 +78,10 @@ public class DisciplineRepository {
                 discipline.setDisciplina(rs.getString("disciplina"));
                 discipline.setSportId(rs.getInt("id_sport"));
                 discipline.setTeam_sport(rs.getBoolean("team_sport"));
+                Sports sports = new  Sports();
+                sports.setId(rs.getInt("id"));
+                sports.setNomeSport(rs.getString("nome_sport"));
+                discipline.setSport(sports);
 
                 listaDiscipline.add(discipline);
             }
@@ -130,5 +136,37 @@ public class DisciplineRepository {
 
         }
 
+    }
+
+    public Discipline findById(int discipline_id){
+        Discipline discipline = new Discipline();
+        try {
+            Connection c = DbConnection.openConnection();
+            System.out.println("connessione Riuscita");
+            String query = "SELECT d.*,s.nome_sport FROM discipline d " +
+                    "JOIN sports s ON d.id_sport = s.id " +
+                    "WHERE d.id = ? ";
+            PreparedStatement pstmt = c.prepareStatement(query);
+            pstmt.setInt(1, discipline_id);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()){
+                discipline.setId(rs.getInt("id"));
+                discipline.setDisciplina(rs.getString("disciplina"));
+                discipline.setSportId(rs.getInt("id_sport"));
+                discipline.setTeam_sport(rs.getBoolean("team_sport"));
+                Sports sports = new Sports();
+                sports.setId(rs.getInt("id"));
+                sports.setNomeSport(rs.getString("nome_sport"));
+                discipline.setSport(sports);
+
+
+            }
+            pstmt.close();
+        }catch (ClassNotFoundException|SQLException e){
+            System.err.println(e.getMessage());
+            System.exit(0);
+        }
+
+        return discipline;
     }
 }

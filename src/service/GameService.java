@@ -4,12 +4,16 @@ import com.sun.org.glassfish.gmbal.GmbalException;
 import entity.Athlete;
 import entity.Discipline;
 import entity.Game;
+import repository.AthleteRepository;
+import repository.DisciplineRepository;
 import repository.GameRepository;
 
 import java.util.List;
 
 public class GameService {
     GameRepository gameRepository = new GameRepository();
+    AthleteRepository athleteRepository = new AthleteRepository();
+    DisciplineRepository disciplineRepository = new DisciplineRepository();
     Athlete athlete = new Athlete();
     Discipline discipline = new Discipline();
     Game game = new Game();
@@ -66,17 +70,34 @@ public class GameService {
         gameRepository.updateGame(athlete, discipline, game);
     }
 
-        public Athlete getAthleteWithGames(int athleteId) {
-            Athlete athlete = new Athlete();
-            athlete.setId(athleteId);
 
-            List<Game> listaGame = gameRepository.findByAthleteId(athleteId);
-            for (Game game : listaGame) {
+
+
+
+        public Athlete getAthleteWithGames(int athleteId) {
+            // Recupera l'atleta completo dal repository
+            Athlete athlete = athleteRepository.findById(athleteId);
+
+            // Recupera i giochi assegnati
+            List<Game> games = gameRepository.findByAthleteId(athleteId);
+            for (Game game : games) {
                 athlete.addListaGame(game);
             }
 
             return athlete;
         }
+    public Discipline getDisciplineWithGames(int discipline_id) {
+        // Recupera l'atleta completo dal repository
+        Discipline discipline = disciplineRepository.findById(discipline_id);
+
+        // Recupera i giochi assegnati
+        List<Game> listaGame = gameRepository.findByDisciplineId(discipline_id);
+        for (Game game : listaGame) {
+            discipline.addListaGame(game);
+        }
+
+        return discipline;
+    }
 
 
 

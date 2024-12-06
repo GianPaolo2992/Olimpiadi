@@ -35,6 +35,7 @@ public class Main {
                 System.out.println("2. lista atleti");
                 System.out.println("3. aggiorna atleta ");
                 System.out.println("4.  elimina atleta");
+                System.out.println("5.  stampa lista di gare per id atleta");
                 System.out.println("9. Exit");
                 System.out.print("Inserisci la tua scelta: ");
                 choice = scanner.nextInt();
@@ -70,10 +71,12 @@ public class Main {
                 System.out.println("2. lista discipline");
                 System.out.println("3. aggiorna disciplina ");
                 System.out.println("4. elimina disciplina");
+                System.out.println("5.  stampa lista di gare per id disciplina");
                 System.out.println("9. Exit");
                 System.out.print("Inserisci la tua scelta: ");
                 choice = scanner.nextInt();
                 DisciplineController disciplineController = new DisciplineController();
+                GameController gameController = new GameController();
                 switch(choice){
                     case 1:
                         disciplineController.create();
@@ -86,6 +89,11 @@ public class Main {
                         break;
                     case 4:
                         disciplineController.delete();
+                        break;
+                    case 5:
+                        disciplineController.read();
+                        gameController.printGamesForDiscipline();
+                        break;
                     case 9:
                         System.out.println("exiting");
                         break;
@@ -95,10 +103,11 @@ public class Main {
             }
             else if(entityChoice == 3){
                 System.out.println("***Menu***");
-                System.out.println("1. crea un nuova disciplina");
+                System.out.println("1. crea un nuova sport");
                 System.out.println("2. lista Sport");
-                System.out.println("3. aggiorna disciplina ");
-                System.out.println("4. elimina disciplina");
+                System.out.println("3. aggiorna sport ");
+                System.out.println("4. elimina sport");
+
                 System.out.println("9. Exit");
                 System.out.print("Inserisci la tua scelta: ");
                 choice = scanner.nextInt();
@@ -114,7 +123,8 @@ public class Main {
                          sportsController.update();
                         break;
                     case 4:
-                        sportsController.delete(); // da controllare il funzionamento.
+                        sportsController.delete();
+                        break;//
                     case 9:
                         System.out.println("exiting");
                         break;

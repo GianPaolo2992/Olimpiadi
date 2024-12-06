@@ -14,7 +14,7 @@ import java.util.List;
 
 public class AthleteRepository {
 
-    public void create(Athlete athlete){
+    public void create(Athlete athlete) {
 
         try {
             Connection c = DbConnection.openConnection();
@@ -23,21 +23,22 @@ public class AthleteRepository {
                     " VALUES(?,?,?,?,?) ";
             PreparedStatement pstmt = c.prepareStatement(query);
 
-            pstmt.setString(1,athlete.getNome());
-            pstmt.setString(2,athlete.getCognome());
-            pstmt.setInt(3,athlete.getEta());
-            pstmt.setDate(4,java.sql.Date.valueOf(athlete.getDataNascita()));
-            pstmt.setInt(5,athlete.getAltezza());
+            pstmt.setString(1, athlete.getNome());
+            pstmt.setString(2, athlete.getCognome());
+            pstmt.setInt(3, athlete.getEta());
+            pstmt.setDate(4, java.sql.Date.valueOf(athlete.getDataNascita()));
+            pstmt.setInt(5, athlete.getAltezza());
             pstmt.executeUpdate();
             pstmt.close();
 
-        }catch (ClassNotFoundException| SQLException e){
+        } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e.getMessage());
             System.exit(0);
         }
 
     }
-    public List<Athlete> read(){
+
+    public List<Athlete> read() {
         List<Athlete> listAthlete = new ArrayList<>();
         try {
             Connection c = DbConnection.openConnection();
@@ -46,61 +47,89 @@ public class AthleteRepository {
             PreparedStatement pstmt = c.prepareStatement(query);
 
             ResultSet rs = pstmt.executeQuery();
-            while (rs.next()){
-            Athlete athlete = new Athlete();
-            athlete.setId(rs.getInt("id"));
-            athlete.setNome(rs.getString("nome"));
-            athlete.setCognome(rs.getString("cognome"));
-            athlete.setEta(rs.getInt("eta"));
-            athlete.setDataNascita(rs.getDate("data_nascita").toLocalDate());
-            athlete.setAltezza(rs.getInt("altezza"));
-            listAthlete.add(athlete);
+            while (rs.next()) {
+                Athlete athlete = new Athlete();
+                athlete.setId(rs.getInt("id"));
+                athlete.setNome(rs.getString("nome"));
+                athlete.setCognome(rs.getString("cognome"));
+                athlete.setEta(rs.getInt("eta"));
+                athlete.setDataNascita(rs.getDate("data_nascita").toLocalDate());
+                athlete.setAltezza(rs.getInt("altezza"));
+                listAthlete.add(athlete);
             }
 
 
-
-        }catch (ClassNotFoundException | SQLException e){
+        } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
             System.exit(0);
         }
-        return  listAthlete;
+        return listAthlete;
     }
 
-    public void update(Athlete athlete){
+    public void update(Athlete athlete) {
         try {
             Connection c = DbConnection.openConnection();
             System.out.println("Connessione Riuscita");
             String query = "UPDATE athlete " +
-                           "SET nome = ?,cognome=?,eta=?,data_nascita = ?, altezza = ? " +
-                           "WHERE id = ?";
+                    "SET nome = ?,cognome=?,eta=?,data_nascita = ?, altezza = ? " +
+                    "WHERE id = ?";
             PreparedStatement pstmt = c.prepareStatement(query);
-            pstmt.setString(1,athlete.getNome());
-            pstmt.setString(2,athlete.getCognome());
-            pstmt.setInt(3,athlete.getEta());
-            pstmt.setDate(4,java.sql.Date.valueOf(athlete.getDataNascita()));
-            pstmt.setInt(5,athlete.getAltezza());
-            pstmt.setInt(6,athlete.getId());
+            pstmt.setString(1, athlete.getNome());
+            pstmt.setString(2, athlete.getCognome());
+            pstmt.setInt(3, athlete.getEta());
+            pstmt.setDate(4, java.sql.Date.valueOf(athlete.getDataNascita()));
+            pstmt.setInt(5, athlete.getAltezza());
+            pstmt.setInt(6, athlete.getId());
             pstmt.executeUpdate();
             pstmt.close();
 
-        }catch (ClassNotFoundException | SQLException e){
+        } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e.getMessage());
             System.exit(0);
         }
     }
-    public void delete(Athlete athlete){
+
+    public void delete(Athlete athlete) {
         try {
             Connection c = DbConnection.openConnection();
             System.out.println("connessione Riuscita");
             String query = "DELETE FROM athlete WHERE id = ?";
             PreparedStatement pstmt = c.prepareStatement(query);
-            pstmt.setInt(1,athlete.getId());
+            pstmt.setInt(1, athlete.getId());
             pstmt.executeUpdate();
             pstmt.close();
 
-        }catch (ClassNotFoundException|SQLException e){
+        } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e.getMessage());
             System.exit(0);
         }
     }
+
+    public Athlete findById(int athlete_id) {
+        Athlete athlete = new Athlete();
+        try{
+            Connection c = DbConnection.openConnection();
+            String query = "SELECT * FROM athlete WHERE id = ?";
+            PreparedStatement pstmt = c.prepareStatement(query);
+            pstmt.setInt(1, athlete_id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                athlete.setId(rs.getInt("id"));
+                athlete.setNome(rs.getString("nome"));
+                athlete.setCognome(rs.getString("cognome"));
+                athlete.setEta(rs.getInt("eta"));
+                athlete.setDataNascita(rs.getDate("data_nascita").toLocalDate());
+                athlete.setAltezza(rs.getInt("altezza"));
+                // Imposta altri campi se necessario
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println(e.getMessage());
+            System.exit(0);
+        }
+
+        return athlete;
+    }
+
 }

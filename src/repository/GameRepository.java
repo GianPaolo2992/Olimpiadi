@@ -54,9 +54,7 @@ public class GameRepository {
         return listaGame;
     }
     public List<Game> findByAthleteId(int athlete_id) {
-        List<Game> games = new ArrayList<>();
-
-
+        List<Game> listaGame = new ArrayList<>();
             try {
                 Connection c = DbConnection.openConnection();
                 String query = "SELECT * FROM game WHERE athlete_id = ?";
@@ -70,16 +68,40 @@ public class GameRepository {
                     game.setId(rs.getInt("id"));
                     game.setIdAthlete(rs.getInt("athlete_id"));
                     game.setIdDisciplina(rs.getInt("discipline_id"));
-                    games.add(game);
+                    listaGame.add(game);
                 }
                 pstmt.close();
 
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e.getMessage());
-            e.printStackTrace();
-        }
+                System.exit(0);     }
 
-        return games;
+        return listaGame;
+    }
+    public List<Game> findByDisciplineId(int discipline_id) {
+        List<Game> listaGame = new ArrayList<>();
+        try {
+            Connection c = DbConnection.openConnection();
+            String query = "SELECT * FROM game WHERE discipline_id = ?";
+            PreparedStatement pstmt = c.prepareStatement(query);
+            pstmt.setInt(1, discipline_id);
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+
+                Game game = new Game();
+                game.setId(rs.getInt("id"));
+                game.setIdAthlete(rs.getInt("athlete_id"));
+                game.setIdDisciplina(rs.getInt("discipline_id"));
+                listaGame.add(game);
+            }
+            pstmt.close();
+
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println(e.getMessage());
+            System.exit(0);     }
+
+        return listaGame;
     }
 
 

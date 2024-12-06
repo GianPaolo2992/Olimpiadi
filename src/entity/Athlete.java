@@ -25,7 +25,7 @@ public class Athlete {
         if (listaGame.isEmpty()) {
             System.out.println("Nessuna gara assegnata a questo atleta.");
         } else {
-            System.out.println("Gare assegnate all'atleta " + nome + " " + cognome + ":");
+            System.out.println("Gare assegnate all'atleta " + nome + " " + cognome  + " \n  " + " /eta : " + eta  + " \n  " + " /data di nascita : " + data_nascita  + " \n  " + " /h : " + altezza +":");
             for (Game game : listaGame) {
                 System.out.println(game.toString());
             }
